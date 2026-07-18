@@ -15,7 +15,7 @@ router.get('/', auth, async (req, res) => {
 
 // Create/Update detail
 router.post('/', auth, async (req, res) => {
-  const { category, key, value, side } = req.body;
+  const { category, key, value, side, mediaUrl } = req.body;
   try {
     // If the key already exists for this wedding, update it. Otherwise, create a new one.
     let detail = await ProgramDetail.findOne({
@@ -27,6 +27,7 @@ router.post('/', auth, async (req, res) => {
     if (detail) {
       detail.value = value;
       detail.side = side || detail.side;
+      detail.mediaUrl = mediaUrl !== undefined ? mediaUrl : detail.mediaUrl;
       await detail.save();
     } else {
       detail = new ProgramDetail({
@@ -34,7 +35,8 @@ router.post('/', auth, async (req, res) => {
         category,
         key,
         value,
-        side: side || req.user.side
+        side: side || req.user.side,
+        mediaUrl
       });
       await detail.save();
     }

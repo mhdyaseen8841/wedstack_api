@@ -23,6 +23,10 @@ const ProgramDetailSchema = new mongoose.Schema({
     type: String,
     enum: ['Groom', 'Bride', 'Shared'],
     default: 'Shared'
+  },
+  mediaUrl: {
+    type: String,
+    required: false
   }
 }, { timestamps: true });
 
